@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PROJECT" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-HUVTGAMC;Initial Catalog=PROJECT;Integrated Security=True" SettingsObjectName="SaleTracker.Properties.Settings" SettingsPropertyName="PROJECTConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ITEM" Member="ITEMs">
+    <Type Name="ITEM">
+      <Column Name="Item_ID" Type="System.String" DbType="NChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.String" DbType="NChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="SmallMoney NOT NULL" CanBeNull="false" />
+      <Column Name="QTY_ITEM" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ITEM_ORDER" Member="ORDERs" ThisKey="Item_ID" OtherKey="ITEM_ID" Type="ORDER" />
+      <Association Name="ITEM_ORDER_LINE" Member="ORDER_LINEs" ThisKey="Item_ID" OtherKey="Item_ID" Type="ORDER_LINE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[ORDER]" Member="ORDERs">
+    <Type Name="ORDER">
+      <Column Name="Order_ID" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ORDER_DATE" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.String" DbType="NChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="Total_Cost" Type="System.Decimal" DbType="Decimal(7,2) NOT NULL" CanBeNull="false" />
+      <Column Name="QTY" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ITEM_ID" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="DATE" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="ORDER_ORDER_LINE" Member="ORDER_LINEs" ThisKey="Order_ID" OtherKey="order_ID" Type="ORDER_LINE" />
+      <Association Name="ITEM_ORDER" Member="ITEM" ThisKey="ITEM_ID" OtherKey="Item_ID" Type="ITEM" IsForeignKey="true" />
+      <Association Name="USER_ORDER" Member="USER" ThisKey="User_ID" OtherKey="User_ID" Type="USER" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ORDER_LINE" Member="ORDER_LINEs">
+    <Type Name="ORDER_LINE">
+      <Column Name="OrderLine_ID" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="order_ID" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Item_ID" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="QTY_ORDERED" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="ITEM_ORDER_LINE" Member="ITEM" ThisKey="Item_ID" OtherKey="Item_ID" Type="ITEM" IsForeignKey="true" />
+      <Association Name="ORDER_ORDER_LINE" Member="ORDER" ThisKey="order_ID" OtherKey="Order_ID" Type="ORDER" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PAYMENT" Member="PAYMENTs">
+    <Type Name="PAYMENT">
+      <Column Name="Payment_ID" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.String" DbType="NChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(7,2) NOT NULL" CanBeNull="false" />
+      <Association Name="USER_PAYMENT" Member="USER" ThisKey="User_ID" OtherKey="User_ID" Type="USER" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[USER]" Member="USERs">
+    <Type Name="USER">
+      <Column Name="User_ID" Type="System.String" DbType="NChar(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[UserName/Email]" Member="UserName_Email" Type="System.String" DbType="NChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="REP_LNAME" Type="System.String" DbType="NChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="REP_FNAME" Type="System.String" DbType="NChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Balance" Type="System.Decimal" DbType="Decimal(7,2) NOT NULL" CanBeNull="false" />
+      <Association Name="USER_ORDER" Member="ORDERs" ThisKey="User_ID" OtherKey="User_ID" Type="ORDER" />
+      <Association Name="USER_PAYMENT" Member="PAYMENTs" ThisKey="User_ID" OtherKey="User_ID" Type="PAYMENT" />
+    </Type>
+  </Table>
+</Database>
